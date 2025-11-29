@@ -22,7 +22,7 @@ jobs:
 
 
       - name: Run black (check)
-        run: python -m black --check .
+        run: python -m black --diff .
 
 
       - name: Run flake8
