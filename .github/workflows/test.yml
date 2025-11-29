@@ -17,11 +17,16 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run linter
-        run: ruff check .
-      
-      - name: Check formatting
-        run: black --check .
+      - name: Install lint tools
+        run: pip install flake8 black
+
+
+      - name: Run black (check)
+        run: python -m black --check .
+
+
+      - name: Run flake8
+        run: flake8 .
 
       - name: Install Dependencies
         run: 
