@@ -18,12 +18,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install lint tools
-        run: pip install flake8 black
-
-
-      - name: Run black (check)
-        run: python -m black --diff .
-
+        run: pip install flake8
 
       - name: Run flake8
         run: flake8 .
