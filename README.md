@@ -157,8 +157,5 @@ b) Merge the PR into `main`.
 c) Navigate to the deployed app
 d) Change the app title and create a new PR. Merge the PR into `main`. Navigate to the deployed app again.Observe the changes.
 
+# Release Notes
 
-## Release Notes — v2.0.0 — Major changes (2025-12-06)
-
-- Big deal changes
-- Minor bug fixes
