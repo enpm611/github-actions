@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Upload site files
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           path: ./spacedelivery/web # the folder containing index.html
 
