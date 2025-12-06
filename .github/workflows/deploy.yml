@@ -10,15 +10,26 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download built site
-        uses: actions/download-artifact@v4
-        with:
-          name: site
-          path: spacedelivery/web
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
+      - name: Upload site files
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./spacedelivery/web # the folder containing index.html
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-pages.outputs.page_url }}
+
+    steps:
       - name: Deploy to GitHub Pages
+        id: deploy-pages
         uses: actions/deploy-pages@v4
