@@ -134,8 +134,8 @@ Task 1
 Automated testing on commit
 
 a) Create a new branch called `test` and push it to the repository. Then create a PR for that branch.
-b) Observe the test results
-c) Introduce a bug and push. Observe the test results.
+b) Observe the test results. If there is a bug, update the test case to match the value that is returned by the function.
+c) Push the updated code. Observe the test results.
 
 
 
