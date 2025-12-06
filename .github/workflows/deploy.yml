@@ -21,6 +21,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ./spacedelivery/web # the folder containing index.html
+          name: github-pages
 
   deploy:
     needs: build
