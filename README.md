@@ -125,3 +125,35 @@ After you created the file and copied the action above, push the change to the r
 * **Task C**: Add a test case to either test file and push your changes to your repository. Check the run of the action to see what status is finishes with. 
 
 * **Task D**: You will notice that the action shows a red x after it has completed its run. Investigate why that action failed. Resolve the issue and push to the repository to trigger the action again.
+
+
+
+
+Task 1
+
+Automated testing on commit
+
+a) Create a new branch called `test` and push it to the repository. Then create a PR for that branch.
+b) Observe the test results
+c) Introduce a bug and push. Observe the test results.
+
+
+
+Task 2
+
+Add release notes to README
+
+a) Create a new branch called `release` and push it to the repository. 
+b) Then create a PR for that branch and add a bulleted list of changes.
+b) Check that the release notes are added to the `README.md` file.
+
+
+Task 3
+
+Deploy on merge
+
+a) Create a new branch called `deploy1` and push it to the repository. Then create a PR for that branch.
+b) Merge the PR into `main`.
+c) Navigate to the deployed app
+d) Change the app title and create a new PR. Merge the PR into `main`. Navigate to the deployed app again.Observe the changes.
+
