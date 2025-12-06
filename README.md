@@ -159,3 +159,9 @@ d) Change the app title and create a new PR. Merge the PR into `main`. Navigate 
 
 # Release Notes
 
+
+## Release Notes — v1.4.0 — Minor release with changes to the delivery logic (2025-12-06)
+
+- Added more pizza varieties
+- Now also delivering to Mars!
+- Cleanup and bug fixes
