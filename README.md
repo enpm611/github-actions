@@ -151,7 +151,7 @@ This exercise illustrates one of the most fundamental parts of a CI/DC pipeline:
 
 Imagine you have completed making changes to the *Galactic Pizza Delivery Time Estimator* and are ready to push a new release out to your users. There are a variety of steps that could be entailed in a release process. For this exercise, we will have our GitHub Action automatically update the version of our application and create release notes.
 
-ℹ️ [**Semantic versioning**](https://semver.org is a standardized way of assigning version numbers so that users can understand the scope and impact of changes in a release. A semantic version has the form `MAJOR.MINOR.PATCH` (e.g., `1.8.16`). The `MAJOR` number increases when changes break backward compatibility, `MINOR` increases when new features are added without breaking existing behavior, and `PATCH` increases for backwards-compatible bug fixes.
+ℹ️ [**Semantic versioning**](https://semver.org) is a standardized way of assigning version numbers so that users can understand the scope and impact of changes in a release. A semantic version has the form `MAJOR.MINOR.PATCH` (e.g., `1.8.16`). The `MAJOR` number increases when changes break backward compatibility, `MINOR` increases when new features are added without breaking existing behavior, and `PATCH` increases for backwards-compatible bug fixes.
 
 Keep up with version can be tedious. So we will let GitHub Action handle the versioning for us. Create a new file in `.github/workflows` and copy the content below:
 
@@ -248,6 +248,8 @@ Now, let's see if we can make our Action update the `Minor` part of the semantic
 
 Create the PR and check again on the Action execution and then the changes it made. Did it work to increase the `minor` part of the version number?
 
+Let's keep this PR open since we'll use it in the next exercise.
+
 This exercise illustrated how we can use GitHub Actions to automate the release process, letting developers focus on being productive and leaving tedious task up to the CI/CD pipeline.
 
 ## Exercise 3: Deploy
@@ -296,12 +298,20 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./spacedelivery/web"
+          path: "./spacedelivery/web" # directory containing the web app files
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 ```
+
+Now, push the changes to the `development` branch. Go to the PR that should still be open. If not, you can just create a new PR merging the `development` branch into the `main` branch. Next, click on `Merge pull request`. That event will trigger the deployment script above and deploy the app to gitHub pages. Go to the page:
+
+https://enpm611.github.io/github-actions
+
+but replace the user name to matched your forked repository. You should see the app running.
+
+This exercise illustated the last step of the CI/CD pipeline, which is delivering the application to its final destination from where users will be able to access and interact with it. You have now implemented your own CI/CD pipeline. You can find many more actions in the (GitHub Marketplace)[https://github.com/marketplace?type=actions].
 
 
 # Release notes
