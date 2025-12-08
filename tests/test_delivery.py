@@ -22,7 +22,7 @@ def fixed_weather():
 
 def test_basic_delivery_normal_mode():
     """Earth is 0.5 lm away; NORMAL speed 10 lm/hr → 0.05 hr."""
-    assert estimate_delivery_time("Earth", DeliveryMode.NORMAL, 1.0, no_weather) == 0.06 # Fix this! It should be 0.05
+    assert estimate_delivery_time("Earth", DeliveryMode.NORMAL, 1.0, no_weather) == 0.05
 
 
 def test_turbo_delivery():
