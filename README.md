@@ -70,13 +70,25 @@ actions/
 
 ### Getting Started
 
-Fork the repository and clone it to your local machine. Then create a new branch called `development`:
+To get started, fork this repository. You should only make changes in your own copy of the repository. Once you forked the repository, go to the *Settings* tab of your forked repository and click on *Pages* on the left-hand side. There, click on the *Source* drop-down and select *GitHub Actions*. Note, that you need to make the selection even if the value is already pre-populated:
+
+![GitHub Pages Configuration](docs/activate_pages.png)
+
+Now, your fork is properly configured. To make changes you'll want to **clone** it to your local machine:
+
+```bash
+git clone git@github.com:<your_user_name>/github-actions.git
+```
+
+Make sure to replace `<your_user_name>` with your GitHub username. This should create a local folder named `github-actions`. 
+
+All modifications are performed in the `development` branch. Therefore, create that branch now by running the following command:
 
 ```bash
 git checkout -b development
 ```
 
-All exercises will be done on the `development` branch that we will merge into the `main` branch occasionally.
+👏 You are now all set to start the exercises!
 
 ## Exercises
 
