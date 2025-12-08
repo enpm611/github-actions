@@ -58,7 +58,7 @@ The directory structure is as follows:
 ```bash
 actions/
 ├── .github/                          # GitHub-specific configuration
-│   └── workflows/                    # This is where GitHub will look for `.yml` Action files.
+│   └── workflows/                    # This is where GitHub will look for `.yml` Action files. You'll need to create this folder.
 ├── deployment_scripts/               # Python scripts that will be called by the *release* Action
 ├── spacedelivery/                    # Main application package
 │   ├── delivery.py                   # Python module for delivery calculations
@@ -87,6 +87,8 @@ All modifications are performed in the `development` branch. Therefore, create t
 ```bash
 git checkout -b development
 ```
+
+All Actions will reside in a folder named `.github/workflows`. Create that folder in the root of your project directory.
 
 👏 You are now all set to start the exercises!
 
@@ -323,7 +325,7 @@ https://enpm611.github.io/github-actions
 
 but replace the user name to matched your forked repository. You should see the app running.
 
-This exercise illustated the last step of the CI/CD pipeline, which is delivering the application to its final destination from where users will be able to access and interact with it. You have now implemented your own CI/CD pipeline. You can find many more actions in the (GitHub Marketplace)[https://github.com/marketplace?type=actions].
+This exercise illustated the last step of the CI/CD pipeline, which is delivering the application to its final destination from where users will be able to access and interact with it. You have now implemented your own CI/CD pipeline. You can find many more actions in the [GitHub Marketplace](https://github.com/marketplace?type=actions).
 
 
 # Release notes
