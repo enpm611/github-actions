@@ -2,7 +2,7 @@ name: Build and test
 
 on:
   push:
-    branches: ["development"] # Triggered when a commit is pushed to the development branch
+    branches: ["dvelopment"] # Triggered when a commit is pushed to the development branch
 
 jobs:
   build:
