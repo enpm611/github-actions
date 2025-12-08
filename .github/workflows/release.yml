@@ -1,0 +1,49 @@
+name: Update version and add release notes to README
+
+on:
+  pull_request:
+    types: [opened] # Only executed when a new PR is created
+
+permissions: # Required for the Action to change our version and README files
+  contents: write
+  pull-requests: write
+
+jobs:
+  update_readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      # Calls a Python script to increase the version number in `__version__.py`
+      - name: Increase version number
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          python deployment_scripts/update_version_number.py
+
+      # Calls a Python script to update the release notes in `README.md`
+      - name: Update release notes
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          python deployment_scripts/update_release_notes.py
+
+      # Commits the changes the script made to `__version__.py` and `README.md`
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add __version__.py
+          git add README.md
+          git commit -m "Add release notes for PR #${{ github.event.pull_request.number }}" || echo "No changes to commit"
+          git push
