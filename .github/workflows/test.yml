@@ -1,0 +1,28 @@
+name: Build and test
+
+on:
+  push:
+    branches: ["dvelopment"] # Triggered when a commit is pushed to the development branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Run this code on a Linux Virtual Machine (VM)
+
+    steps: # Steps that are executed for this Action
+      # Checks out the code into the VM
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Installs Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Installs the dependencies
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      # Discovers and runs the tests
+      - name: Run tests
+        run: pytest -q
