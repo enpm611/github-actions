@@ -330,6 +330,10 @@ but replace the user name to match your forked repository. You should see the ap
 
 This exercise illustrated the last step of the CI/CD pipeline, which is delivering the application to its final destination from where users will be able to access and interact with it. You have now implemented your own CI/CD pipeline. You can find many more actions in the [GitHub Marketplace](https://github.com/marketplace?type=actions).
 
+## Advanced Exercises
+
+You finished all the exercises above already? Great job! The next few exercises build on the previous ones but introduce some additional complexities. They are ordered by increasing complexity and give you fewer step-by-step instructions as you progress. Consult the [GitHub Actions documentation](https://docs.github.com/en/actions) and the [GitHub Marketplace](https://github.com/marketplace?type=actions) whenever you get stuck. Do all work on the `development` branch unless told otherwise.
+
 ## Exercise 4: **Code quality and a test matrix**
 
 So far, our tests only run on `push` to `development`, even though the pipeline diagram promises they also run on pull requests. Real projects also check code style and make sure the code works on more than one runtime version.
