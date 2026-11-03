@@ -30,6 +30,7 @@ jobs:
 ```
 
 An action consists of the following basic components:
+
 - `name`: name of the action.
 - `events`: the `on` keyword specifies under what circumstance the action should run. In this example, the action will run when an issue is opened or reopened.
 - `jobs`: specifies one or more things that should happen when the event is triggered. Here, we issue a command to GitHub to edit the modified issue by adding a label.
@@ -80,7 +81,7 @@ Now, your fork is properly configured. To make changes you'll want to **clone** 
 git clone git@github.com:<your_user_name>/github-actions.git
 ```
 
-Make sure to replace `<your_user_name>` with your GitHub username. This should create a local folder named `github-actions`. 
+Make sure to replace `<your_user_name>` with your GitHub username. This should create a local folder named `github-actions`.
 
 All modifications are performed in the `development` branch. Therefore, create that branch now by running the following command:
 
@@ -101,6 +102,7 @@ The diagram below shows the steps of the CI/CD pipeline that we will build in th
 ![GitHub Actions Exercises](docs/github_actions_exercises.svg "GitHub Actions Exercises")
 
 We will implement GitHub Actions that are automatically triggered by events in GitHub, namely:
+
 - `push` event: runs tests whenever a new commit is pushed to the repository
 - `pull_request` event: runs tests whenever a new pull request is opened against the repository
 - `push` to `main`: triggered whenever a PR is merged into the `main` branch (or code is pushed directly to it) and deploys the application.
@@ -237,6 +239,7 @@ Once you have created the `release.yml` Action file, push it to the repository a
 
 - Title: `Emergency fix for cheese crust pizza`
 - Body:
+
   ```
   - Patching a bug found when calculating cheese crust pizza delivery cost.
   - Slight UI improvements.
@@ -321,7 +324,7 @@ jobs:
 
 Now, push the changes to the `development` branch. Go to the PR that should still be open. If not, you can just create a new PR merging the `development` branch into the `main` branch. Next, click on `Merge pull request`. That event will trigger the deployment script above and deploy the app to GitHub Pages. Go to the page:
 
-https://enpm611.github.io/github-actions
+<https://enpm611.github.io/github-actions>
 
 but replace the user name to match your forked repository. You should see the app running.
 
@@ -329,7 +332,7 @@ This exercise illustrated the last step of the CI/CD pipeline, which is deliveri
 
 ## Advanced Exercises
 
-The following exercises build on the pipeline you created in Exercises 1-3. They are ordered by increasing complexity and give you fewer step-by-step instructions as you progress. Consult the [GitHub Actions documentation](https://docs.github.com/en/actions) and the [GitHub Marketplace](https://github.com/marketplace?type=actions) whenever you get stuck. Do all work on the `development` branch unless told otherwise.
+You finished all the exercises above already? Great job! The next few exercises build on the previous ones but introduce some additional complexities. They are ordered by increasing complexity and give you fewer step-by-step instructions as you progress. Consult the [GitHub Actions documentation](https://docs.github.com/en/actions) and the [GitHub Marketplace](https://github.com/marketplace?type=actions) whenever you get stuck. Do all work on the `development` branch unless told otherwise.
 
 ## Exercise 4: **Code quality and a test matrix**
 
@@ -351,9 +354,11 @@ Passing tests say little if they only exercise a fraction of your code. In this 
 ### Tasks
 
 1. Add `pytest-cov` to `requirements.txt`. Change the test step to:
+
    ```bash
    pytest -q --cov=spacedelivery --cov-report=term-missing --cov-report=xml --cov-report=html --cov-fail-under=90
    ```
+
 2. Push and look at the log output. Which lines (if any) are reported as *missing*? Add test cases to `tests/test_delivery.py` until the build passes. Then raise the threshold to `100` and make sure the pipeline still passes.
 3. Use [`actions/upload-artifact`](https://github.com/actions/upload-artifact) to upload the `htmlcov/` directory as an artifact named `coverage-report`. The upload must happen **even when the tests fail** (hint: look at the `if: always()` condition).
 4. Write the coverage summary to the run page. GitHub provides a special file, `$GITHUB_STEP_SUMMARY`, that renders Markdown on the workflow summary page. Add a step that appends a short table to this file, for example the percentage reported in `coverage.xml`.
@@ -369,10 +374,12 @@ Our release Action decides between `major`, `minor`, and `patch` by searching th
 
 1. **Write failing tests first.** Create `tests/test_deployment_scripts.py` with tests for `bump_version()` in `deployment_scripts/update_version_number.py`. Use pytest's `tmp_path` and `monkeypatch` fixtures to run the function against a temporary `__version__.py` and a fake `PR_TITLE` (hint: the script reads `__version__.py` from the current working directory, so use `monkeypatch.chdir(tmp_path)`; and since `deployment_scripts` is not a package, you may need to add it to `sys.path` or load the module with `importlib`). Cover at least: patch, minor (resets patch to `0`), major (resets minor and patch to `0`), and the *"minority"* false positive described above. The false-positive test should fail. Make sure the new tests are executed by your `test.yml` Action.
 2. **Switch to labels.** Create the labels `major` and `minor` in your repository (*Issues → Labels*). Change `release.yml` so that it passes the PR labels to the script, for example:
+
    ```yaml
    env:
      PR_LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
    ```
+
    Update `get_release_type()` to read `PR_LABELS` (parse it with `json.loads`) instead of looking at the title. No label means `patch`. If both labels are present, `major` wins.
 3. **Discover the timing problem.** Create a PR and add the `minor` label **after** creating it. Was the version bumped correctly? Explain why not, given the `types: [opened]` trigger.
 4. **Fix it without bumping twice.** Extend the trigger to include `labeled` and `unlabeled` (and optionally `synchronize`). Now every label change causes a second bump on top of the first one. Design and implement a solution such that the version in the PR is always *exactly one bump* ahead of the version on `main`, no matter how many times the workflow runs. Hint: compare against the version on the base branch, e.g. by checking out `${{ github.base_ref }}` or running `git show origin/${{ github.base_ref }}:__version__.py`.
@@ -388,6 +395,7 @@ Right now `test.yml` and `deploy.yml` are completely independent. Pushing a brok
 ### Tasks
 
 1. **Make `test.yml` reusable.** Add a `workflow_call` trigger to `test.yml` in addition to the existing triggers:
+
    ```yaml
    on:
      push:
@@ -396,6 +404,7 @@ Right now `test.yml` and `deploy.yml` are completely independent. Pushing a brok
        branches: ["main"]
      workflow_call:
    ```
+
 2. **Gate the deployment.** In `deploy.yml`, add a first job named `test` that calls the reusable workflow with `uses: ./.github/workflows/test.yml`. Then make the existing `deploy` job depend on it using `needs: test`.
 3. **Prove the gate works.** On `development`, deliberately break a test (e.g., change an expected value), open a PR to `main`, and merge it. Verify that the `deploy` job is *skipped* and the live site is unchanged. Then fix the test, push again, and watch the deployment succeed. (Remember to repair `main` before continuing!)
 4. **Add a smoke test after deployment.** Add a third job, `verify`, that runs after `deploy` (`needs: deploy`) and uses `curl --fail --retry 5 --retry-delay 5` against the deployed URL. Pass the URL between jobs using the `outputs` of the `deploy` job (hint: `${{ steps.deployment.outputs.page_url }}`). Check that the HTML contains the title of the application using `grep`.
@@ -411,16 +420,20 @@ Workflows run code with access to your repository and tokens, which makes them a
 
 1. **Least privilege.** Set `permissions: {}` (no permissions) at the top of `test.yml`, then grant back only what each job needs. Does the test job still work? Why does `actions/checkout` need `contents: read` when the repository is private but not necessarily when it is public?
 2. **Pin actions to commit SHAs.** Tags like `@v4` can be moved by the action's owner. Replace every `uses:` reference in your workflows with the full commit SHA of the release, keeping the version as a comment:
+
    ```yaml
    uses: actions/checkout@<full-40-character-sha> # v4.2.2
    ```
+
 3. **Keep them up to date automatically.** Pinned SHAs are painful to update by hand. Create `.github/dependabot.yml` with entries for the `github-actions` and `pip` ecosystems, checked weekly. Explain in your own words why Dependabot PRs are a good fit for the pipeline you built in Exercises 4-7.
 4. **Restrict who can trigger a deployment.** In your fork under *Settings → Environments → github-pages*, add a *Required reviewer* (yourself) and restrict deployments to the `main` branch. Trigger a deployment and approve it from the run page.
 5. **Find the vulnerability.** The following step is added to a workflow in your repository by a (well-meaning) teammate:
+
    ```yaml
    - name: Greet contributor
      run: echo "Thanks for the PR '${{ github.event.pull_request.title }}'!"
    ```
+
    Craft a PR title that makes this step execute an additional command (try printing the string `pwned` on a separate line - **only in your own fork**). Then fix the step using an environment variable, as in `release.yml`.
 6. **Write a short threat model** (5-10 sentences) in a new file `docs/pipeline_security.md`: Which secrets and permissions does your pipeline have? What could an attacker do who can open a PR from a fork? What mitigations have you applied?
 
@@ -444,8 +457,6 @@ In this final exercise, you will bring everything together by building a release
    - Post a comment on each PR with the coverage summary from Exercise 5 using `actions/github-script`.
 
 ❓ Look at your finished pipeline. Which events trigger which workflows? Create a table or diagram that documents it, and update `docs/github_actions_exercises.svg` or add a Mermaid diagram to this README.
-
-
 
 # Release notes
 
